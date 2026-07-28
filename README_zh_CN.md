@@ -6,7 +6,7 @@
 
 ## sipclash
 
-[![Downloads](https://img.shields.io/github/downloads/fyy6658-arch/FlClash/total?style=flat-square&logo=github)](https://github.com/fyy6658-arch/FlClash/releases/)[![Last Version](https://img.shields.io/github/release/fyy6658-arch/FlClash/all.svg?style=flat-square)](https://github.com/fyy6658-arch/FlClash/releases/)[![License](https://img.shields.io/github/license/fyy6658-arch/FlClash?style=flat-square)](LICENSE)
+[![下载 Android APK](https://img.shields.io/badge/下载-Android_APK-blue?style=flat-square&logo=android)](https://github.com/fyy6658-arch/FlClash/releases/latest/download/sipclash-universal.apk)[![最新版本](https://img.shields.io/github/release/fyy6658-arch/FlClash/all.svg?style=flat-square)](https://github.com/fyy6658-arch/FlClash/releases/)[![许可证](https://img.shields.io/github/license/fyy6658-arch/FlClash?style=flat-square)](LICENSE)
 
 [![上游频道](https://img.shields.io/badge/上游-Telegram_频道-blue?style=flat-square&logo=telegram)](https://t.me/FlClash)
 
