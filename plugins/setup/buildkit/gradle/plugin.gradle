@@ -6,23 +6,69 @@
 // It adds a task that runs build_tool android before mergeNativeLibs.
 
 def buildkitDir = file("${project.projectDir}/../buildkit").absolutePath
-def launcher = "${buildkitDir}/run_build_tool.sh"
+def isWindows = System.getProperty('os.name').toLowerCase().contains('windows')
+def launcher = isWindows
+        ? "${buildkitDir}/run_build_tool.cmd"
+        : "${buildkitDir}/run_build_tool.sh"
 def projectRoot = file("${buildkitDir}/../../..").absolutePath
-def androidArch = System.getenv('ANDROID_ARCH')
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withInputStream { localProperties.load(it) }
+}
+
+def flutterRoot = System.getenv('FLUTTER_ROOT') ?:
+        localProperties.getProperty('flutter.sdk')
+def sdkDir = System.getenv('ANDROID_HOME') ?:
+        localProperties.getProperty('sdk.dir')
+def androidNdk = System.getenv('ANDROID_NDK') ?:
+        localProperties.getProperty('ndk.dir')
+if (!androidNdk && sdkDir && project.android.ndkVersion) {
+    androidNdk = new File(sdkDir, "ndk/${project.android.ndkVersion}").absolutePath
+}
+def goRoot = System.getenv('GO_ROOT') ?:
+        localProperties.getProperty('go.sdk')
+def androidArch = System.getenv('ANDROID_ARCH') ?:
+        localProperties.getProperty('android.arch')
 def targetPlatform = project.findProperty('target-platform') ?:
         rootProject.findProperty('target-platform')
-def androidNdk = System.getenv('ANDROID_NDK')
 def archArgs = androidArch
         ? ['--arch', androidArch]
         : (targetPlatform ? ['--target-platform', targetPlatform.toString()] : [])
 
 task buildGoCore(type: Exec) {
     workingDir buildkitDir
-    commandLine 'bash', launcher, 'android', *archArgs
+    if (isWindows) {
+        commandLine 'cmd', '/c', launcher, 'android', *archArgs
+    } else {
+        commandLine 'bash', launcher, 'android', *archArgs
+    }
 
     environment 'ANDROID_NDK', androidNdk
+    environment 'FLUTTER_ROOT', flutterRoot
+    if (goRoot) {
+        environment 'PATH', "${new File(goRoot, 'bin').absolutePath}${File.pathSeparator}${System.getenv('PATH')}"
+    }
     environment 'APP_ENV', project.hasProperty('appEnv') ? project.appEnv : 'pre'
     environment 'PROJECT_DIR', projectRoot
+
+    doFirst {
+        if (!flutterRoot || !new File(flutterRoot).isDirectory()) {
+            throw new GradleException(
+                    'Flutter SDK not found. Configure flutter.sdk in android/local.properties.'
+            )
+        }
+        if (!androidNdk || !new File(androidNdk).isDirectory()) {
+            throw new GradleException(
+                    'Android NDK not found. Install the configured NDK or set ndk.dir in android/local.properties.'
+            )
+        }
+        if (goRoot && !new File(goRoot, isWindows ? 'bin/go.exe' : 'bin/go').isFile()) {
+            throw new GradleException(
+                    'Go SDK not found. Configure go.sdk in android/local.properties.'
+            )
+        }
+    }
 }
 
 def goCoreTask = buildGoCore

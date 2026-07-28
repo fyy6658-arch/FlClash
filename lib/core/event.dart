@@ -21,6 +21,8 @@ abstract mixin class CoreEventListener {
     bool skipped,
     String? error,
   ) {}
+
+  void onAutoSelect(String groupName, String proxyName) {}
 }
 
 class CoreEventManager {
@@ -52,6 +54,13 @@ class CoreEventManager {
               data['updating'] as bool,
               data['skipped'] as bool? ?? false,
               data['error'] as String?,
+            );
+            break;
+          case CoreEventType.autoSelect:
+            final data = event.data as Map<String, dynamic>;
+            listener.onAutoSelect(
+              data['group'] as String,
+              data['proxy'] as String,
             );
             break;
         }

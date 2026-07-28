@@ -44,16 +44,7 @@ class _CoreContainerState extends ConsumerState<CoreManager>
         ref.read(setupActionProvider.notifier).updateConfigDebounce();
       }
     });
-    ref.listenManual(appSettingProvider.select((state) => state.openLogs), (
-      prev,
-      next,
-    ) {
-      if (next) {
-        coreController.startLog();
-      } else {
-        coreController.stopLog();
-      }
-    }, fireImmediately: true);
+    coreController.stopLog();
   }
 
   @override
@@ -73,21 +64,6 @@ class _CoreContainerState extends ConsumerState<CoreManager>
   }
 
   @override
-  void onLog(Log log) {
-    ref.read(logsProvider.notifier).add(log);
-    if (log.logLevel == LogLevel.error) {
-      globalState.showNotifier(log.payload);
-    }
-    super.onLog(log);
-  }
-
-  @override
-  void onRequest(TrackerInfo trackerInfo) async {
-    ref.read(requestsProvider.notifier).addRequest(trackerInfo);
-    super.onRequest(trackerInfo);
-  }
-
-  @override
   Future<void> onLoaded(String providerName) async {
     final ref = globalState.container;
     ref
@@ -97,6 +73,18 @@ class _CoreContainerState extends ConsumerState<CoreManager>
       ref.read(proxiesActionProvider.notifier).updateGroupsDebounce();
     }, duration: const Duration(milliseconds: 5000));
     super.onLoaded(providerName);
+  }
+
+  @override
+  Future<void> onAutoSelect(String groupName, String proxyName) async {
+    ref.read(proxiesActionProvider.notifier).updateGroupsDebounce();
+    if (ref.read(appSettingProvider).closeConnections) {
+      await coreController.closeConnections();
+    } else {
+      await coreController.resetConnections();
+    }
+    ref.read(checkIpNumProvider.notifier).add();
+    super.onAutoSelect(groupName, proxyName);
   }
 
   @override

@@ -6,7 +6,7 @@ setlocal ENABLEDELAYEDEXPANSION
 echo warning: [setup] Plugin triggered
 
 SET BASEDIR=%~dp0
-SET PROJECT_DIR=%CD%
+if not defined PROJECT_DIR SET PROJECT_DIR=%CD%
 
 if not exist "%PROJECT_DIR%\pubspec.yaml" (
     echo Error: Could not find project root at "%PROJECT_DIR%"
@@ -99,12 +99,12 @@ if not exist "%PRECOMPILED%" (
     "%DART%" compile kernel bin/build_tool_runner.dart
 )
 
-"%DART%" "%PRECOMPILED%" %* --root-dir "%PROJECT_DIR%"
+"%DART%" "%PRECOMPILED%" %* --root-dir "%PROJECT_DIR%."
 
 REM 253 means invalid snapshot version.
 If %ERRORLEVEL% equ 253 (
     "%DART%" pub get --no-precompile
     "%DART%" compile kernel bin/build_tool_runner.dart
-    "%DART%" "%PRECOMPILED%" %* --root-dir "%PROJECT_DIR%"
+    "%DART%" "%PRECOMPILED%" %* --root-dir "%PROJECT_DIR%."
 )
 exit /b %ERRORLEVEL%

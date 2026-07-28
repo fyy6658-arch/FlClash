@@ -12,6 +12,14 @@
 
 A multi-platform proxy client based on ClashMeta, simple and easy to use, open-source and ad-free.
 
+> [!NOTE]
+> This repository is a personal fork of
+> [chen08209/FlClash](https://github.com/chen08209/FlClash), not an official
+> FlClash release. The fork was modified in July 2026 and currently focuses on
+> Android stability, removing Firebase integration, and automatically selecting
+> low-latency Taiwan, Singapore, or Japan nodes for configured selector groups.
+> See the Git history for the complete changes.
+
 on Desktop:
 <p style="text-align: center;">
     <img alt="desktop" src="snapshots/desktop.gif">

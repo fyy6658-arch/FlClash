@@ -83,6 +83,10 @@ func handleAction(action *Action, result ActionResult) {
 			result.success(value)
 		})
 		return
+	case setAutoSelectMethod:
+		data := action.Data.(string)
+		result.success(handleSetAutoSelect(data))
+		return
 	case getTrafficMethod:
 		data := action.Data.(bool)
 		result.success(handleGetTraffic(data))

@@ -164,8 +164,9 @@ func patchSelectGroup(mapping map[string]string) {
 
 func defaultSetupParams() *SetupParams {
 	return &SetupParams{
-		TestURL:     "https://www.gstatic.com/generate_204",
-		SelectedMap: map[string]string{},
+		TestURL:          "https://www.gstatic.com/generate_204",
+		SelectedMap:      map[string]string{},
+		AutoSelectGroups: []string{},
 	}
 }
 
@@ -261,6 +262,7 @@ func applyConfig(params *SetupParams) error {
 	}
 	hub.ApplyConfig(currentConfig)
 	patchSelectGroup(params.SelectedMap)
+	configureAutoSelect(params.AutoSelectGroups, params.TestURL)
 	updateListeners()
 	if updater.GeoAutoUpdate() {
 		updater.RegisterGeoUpdaterWithCancel()

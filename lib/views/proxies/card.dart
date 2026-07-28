@@ -98,8 +98,13 @@ class ProxyCard extends StatelessWidget {
   Future<void> _changeProxy(WidgetRef ref) async {
     final isComputedSelected = groupType.isComputedSelected;
     final isSelector = groupType == GroupType.Selector;
-    final ref = globalState.container;
     if (isComputedSelected || isSelector) {
+      if (isSelector) {
+        final groups = ref
+            .read(profilesActionProvider.notifier)
+            .updateCurrentAutoSelectGroups(groupName, enabled: false);
+        await ref.read(proxiesActionProvider.notifier).setAutoSelect(groups);
+      }
       final currentProxyName = ref.read(proxyNameProvider(groupName));
       final nextProxyName = switch (isComputedSelected) {
         true => currentProxyName == proxy.name ? '' : proxy.name,
@@ -128,12 +133,17 @@ class ProxyCard extends StatelessWidget {
             final selectedProxyName = ref.watch(
               selectedProxyNameProvider(groupName),
             );
+            final autoSelectEnabled = ref.watch(
+              autoSelectGroupsProvider.select(
+                (groups) => groups.contains(groupName),
+              ),
+            );
             return CommonCard(
               key: key,
               onPressed: () {
                 _changeProxy(ref);
               },
-              isSelected: selectedProxyName == proxy.name,
+              isSelected: !autoSelectEnabled && selectedProxyName == proxy.name,
               child: child!,
             );
           },
@@ -191,6 +201,72 @@ class ProxyCard extends StatelessWidget {
             child: _ProxyComputedMark(groupName: groupName, proxy: proxy),
           ),
       ],
+    );
+  }
+}
+
+class AutoSelectProxyCard extends ConsumerWidget {
+  final String groupName;
+  final ProxyCardType type;
+
+  const AutoSelectProxyCard({
+    super.key,
+    required this.groupName,
+    required this.type,
+  });
+
+  Future<void> _toggle(WidgetRef ref, bool enabled) async {
+    if (enabled) {
+      final selectedName = ref
+          .read(groupsProvider)
+          .getGroup(groupName)
+          ?.realNow;
+      if (selectedName != null && selectedName.isNotEmpty) {
+        ref
+            .read(profilesActionProvider.notifier)
+            .updateCurrentSelectedMap(groupName, selectedName);
+      }
+    }
+    final groups = ref
+        .read(profilesActionProvider.notifier)
+        .updateCurrentAutoSelectGroups(groupName, enabled: !enabled);
+    await ref.read(proxiesActionProvider.notifier).setAutoSelect(groups);
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final enabled = ref.watch(
+      autoSelectGroupsProvider.select((groups) => groups.contains(groupName)),
+    );
+    return CommonCard(
+      onPressed: () => _toggle(ref, enabled),
+      isSelected: enabled,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '自动选点',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: context.textTheme.bodyMedium,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              type == ProxyCardType.expand
+                  ? '台湾、新加坡、日本中延迟最低\n每 10 分钟自动测速'
+                  : '台 / 新 / 日 · 10 分钟',
+              maxLines: type == ProxyCardType.expand ? 2 : 1,
+              overflow: TextOverflow.ellipsis,
+              style: context.textTheme.bodySmall?.copyWith(
+                color: context.textTheme.bodySmall?.color?.opacity80,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

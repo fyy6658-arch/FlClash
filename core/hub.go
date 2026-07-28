@@ -80,6 +80,7 @@ func handleForceGC() {
 }
 
 func handleShutdown() bool {
+	stopAutoSelect()
 	stopListeners()
 	executor.Shutdown()
 	handleForceGC()
@@ -541,13 +542,9 @@ func init() {
 			Type: DelayMessage,
 			Data: delayData,
 		})
+		handleAutoSelectDelay(url, name, delay)
 	}
-	statistic.DefaultRequestNotify = func(c statistic.Tracker) {
-		sendMessage(Message{
-			Type: RequestMessage,
-			Data: c,
-		})
-	}
+	statistic.DefaultRequestNotify = nil
 	executor.DefaultProviderLoadedHook = func(providerName string) {
 		sendMessage(Message{
 			Type: LoadedMessage,

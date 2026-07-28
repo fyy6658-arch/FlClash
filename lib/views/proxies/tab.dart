@@ -328,6 +328,7 @@ class _ProxyGroupViewState extends ConsumerState<ProxyGroupView> {
   Widget build(BuildContext context) {
     final group = widget.group;
     final proxies = group.all;
+    final showAutoSelect = group.type == GroupType.Selector;
     testUrl = group.testUrl;
     currentProxies = proxies;
     return CommonScrollBar(
@@ -347,9 +348,16 @@ class _ProxyGroupViewState extends ConsumerState<ProxyGroupView> {
           crossAxisSpacing: 8,
           mainAxisExtent: getItemHeight(widget.cardType),
         ),
-        itemCount: currentProxies.length,
+        itemCount: currentProxies.length + (showAutoSelect ? 1 : 0),
         itemBuilder: (_, index) {
-          final proxy = currentProxies[index];
+          if (showAutoSelect && index == 0) {
+            return AutoSelectProxyCard(
+              key: ValueKey('${group.name}.auto-select'),
+              groupName: group.name,
+              type: widget.cardType,
+            );
+          }
+          final proxy = currentProxies[index - (showAutoSelect ? 1 : 0)];
           return ProxyCard(
             testUrl: group.testUrl,
             groupType: group.type,

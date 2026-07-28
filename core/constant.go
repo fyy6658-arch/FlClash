@@ -17,8 +17,14 @@ type InitParams struct {
 }
 
 type SetupParams struct {
-	SelectedMap map[string]string `json:"selected-map"`
-	TestURL     string            `json:"test-url"`
+	SelectedMap      map[string]string `json:"selected-map"`
+	AutoSelectGroups []string          `json:"auto-select-groups"`
+	TestURL          string            `json:"test-url"`
+}
+
+type AutoSelectParams struct {
+	AutoSelectGroups []string `json:"auto-select-groups"`
+	TestURL          string   `json:"test-url"`
 }
 
 type UpdateParams struct {
@@ -83,6 +89,7 @@ const (
 	updateConfigMethod             Method = "updateConfig"
 	getProxiesMethod               Method = "getProxies"
 	changeProxyMethod              Method = "changeProxy"
+	setAutoSelectMethod            Method = "setAutoSelect"
 	getTrafficMethod               Method = "getTraffic"
 	getTotalTrafficMethod          Method = "getTotalTraffic"
 	resetTrafficMethod             Method = "resetTraffic"
@@ -125,11 +132,12 @@ type Message struct {
 }
 
 const (
-	LogMessage       MessageType = "log"
-	DelayMessage     MessageType = "delay"
-	RequestMessage   MessageType = "request"
-	LoadedMessage    MessageType = "loaded"
-	GeoUpdateMessage MessageType = "geoUpdate"
+	LogMessage        MessageType = "log"
+	DelayMessage      MessageType = "delay"
+	RequestMessage    MessageType = "request"
+	LoadedMessage     MessageType = "loaded"
+	GeoUpdateMessage  MessageType = "geoUpdate"
+	AutoSelectMessage MessageType = "autoSelect"
 )
 
 type GeoUpdateStatus struct {

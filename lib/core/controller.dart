@@ -134,6 +134,10 @@ class CoreController {
     return await _interface.changeProxy(changeProxyParams);
   }
 
+  Future<String> setAutoSelect(AutoSelectParams autoSelectParams) async {
+    return _interface.setAutoSelect(autoSelectParams);
+  }
+
   Future<List<TrackerInfo>> getConnections() async {
     final res = await _interface.getConnections();
     final connectionsData = json.decode(res) as Map;

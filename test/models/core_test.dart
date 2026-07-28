@@ -167,6 +167,15 @@ void main() {
       expect(event.type, CoreEventType.log);
       expect(event.data, 'test log');
     });
+
+    test('fromJson with auto-select notification', () {
+      final event = CoreEvent.fromJson({
+        'type': 'autoSelect',
+        'data': {'group': 'Proxy', 'proxy': 'JP-01'},
+      });
+      expect(event.type, CoreEventType.autoSelect);
+      expect(event.data, {'group': 'Proxy', 'proxy': 'JP-01'});
+    });
   });
 
   group('InvokeMessage', () {

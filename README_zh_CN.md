@@ -12,6 +12,12 @@
 
 基于ClashMeta的多平台代理客户端，简单易用，开源无广告。
 
+> [!NOTE]
+> 本仓库是 [chen08209/FlClash](https://github.com/chen08209/FlClash)
+> 的个人修改版，不是 FlClash 官方发行版。该版本于 2026 年 7 月开始修改，
+> 当前主要针对 Android 稳定性、移除 Firebase 集成，以及为指定策略组自动选择
+> 台湾、新加坡或日本的低延迟节点。完整变更请查阅 Git 提交记录。
+
 on Desktop:
 <p style="text-align: center;">
     <img alt="desktop" src="snapshots/desktop.gif">

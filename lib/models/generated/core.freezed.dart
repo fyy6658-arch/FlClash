@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SetupParams {
 
-@JsonKey(name: 'selected-map') Map<String, String> get selectedMap;@JsonKey(name: 'test-url') String get testUrl;
+@JsonKey(name: 'selected-map') Map<String, String> get selectedMap;@JsonKey(name: 'auto-select-groups') Set<String> get autoSelectGroups;@JsonKey(name: 'test-url') String get testUrl;
 /// Create a copy of SetupParams
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $SetupParamsCopyWith<SetupParams> get copyWith => _$SetupParamsCopyWithImpl<Setu
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SetupParams&&const DeepCollectionEquality().equals(other.selectedMap, selectedMap)&&(identical(other.testUrl, testUrl) || other.testUrl == testUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SetupParams&&const DeepCollectionEquality().equals(other.selectedMap, selectedMap)&&const DeepCollectionEquality().equals(other.autoSelectGroups, autoSelectGroups)&&(identical(other.testUrl, testUrl) || other.testUrl == testUrl));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(selectedMap),testUrl);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(selectedMap),const DeepCollectionEquality().hash(autoSelectGroups),testUrl);
 
 @override
 String toString() {
-  return 'SetupParams(selectedMap: $selectedMap, testUrl: $testUrl)';
+  return 'SetupParams(selectedMap: $selectedMap, autoSelectGroups: $autoSelectGroups, testUrl: $testUrl)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $SetupParamsCopyWith<$Res>  {
   factory $SetupParamsCopyWith(SetupParams value, $Res Function(SetupParams) _then) = _$SetupParamsCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'selected-map') Map<String, String> selectedMap,@JsonKey(name: 'test-url') String testUrl
+@JsonKey(name: 'selected-map') Map<String, String> selectedMap,@JsonKey(name: 'auto-select-groups') Set<String> autoSelectGroups,@JsonKey(name: 'test-url') String testUrl
 });
 
 
@@ -65,10 +65,11 @@ class _$SetupParamsCopyWithImpl<$Res>
 
 /// Create a copy of SetupParams
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? selectedMap = null,Object? testUrl = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? selectedMap = null,Object? autoSelectGroups = null,Object? testUrl = null,}) {
   return _then(_self.copyWith(
 selectedMap: null == selectedMap ? _self.selectedMap : selectedMap // ignore: cast_nullable_to_non_nullable
-as Map<String, String>,testUrl: null == testUrl ? _self.testUrl : testUrl // ignore: cast_nullable_to_non_nullable
+as Map<String, String>,autoSelectGroups: null == autoSelectGroups ? _self.autoSelectGroups : autoSelectGroups // ignore: cast_nullable_to_non_nullable
+as Set<String>,testUrl: null == testUrl ? _self.testUrl : testUrl // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -154,10 +155,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'selected-map')  Map<String, String> selectedMap, @JsonKey(name: 'test-url')  String testUrl)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'selected-map')  Map<String, String> selectedMap, @JsonKey(name: 'auto-select-groups')  Set<String> autoSelectGroups, @JsonKey(name: 'test-url')  String testUrl)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SetupParams() when $default != null:
-return $default(_that.selectedMap,_that.testUrl);case _:
+return $default(_that.selectedMap,_that.autoSelectGroups,_that.testUrl);case _:
   return orElse();
 
 }
@@ -175,10 +176,10 @@ return $default(_that.selectedMap,_that.testUrl);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'selected-map')  Map<String, String> selectedMap, @JsonKey(name: 'test-url')  String testUrl)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'selected-map')  Map<String, String> selectedMap, @JsonKey(name: 'auto-select-groups')  Set<String> autoSelectGroups, @JsonKey(name: 'test-url')  String testUrl)  $default,) {final _that = this;
 switch (_that) {
 case _SetupParams():
-return $default(_that.selectedMap,_that.testUrl);case _:
+return $default(_that.selectedMap,_that.autoSelectGroups,_that.testUrl);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -195,10 +196,10 @@ return $default(_that.selectedMap,_that.testUrl);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'selected-map')  Map<String, String> selectedMap, @JsonKey(name: 'test-url')  String testUrl)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'selected-map')  Map<String, String> selectedMap, @JsonKey(name: 'auto-select-groups')  Set<String> autoSelectGroups, @JsonKey(name: 'test-url')  String testUrl)?  $default,) {final _that = this;
 switch (_that) {
 case _SetupParams() when $default != null:
-return $default(_that.selectedMap,_that.testUrl);case _:
+return $default(_that.selectedMap,_that.autoSelectGroups,_that.testUrl);case _:
   return null;
 
 }
@@ -210,7 +211,7 @@ return $default(_that.selectedMap,_that.testUrl);case _:
 @JsonSerializable()
 
 class _SetupParams implements SetupParams {
-  const _SetupParams({@JsonKey(name: 'selected-map') required final  Map<String, String> selectedMap, @JsonKey(name: 'test-url') required this.testUrl}): _selectedMap = selectedMap;
+  const _SetupParams({@JsonKey(name: 'selected-map') required final  Map<String, String> selectedMap, @JsonKey(name: 'auto-select-groups') final  Set<String> autoSelectGroups = const {}, @JsonKey(name: 'test-url') required this.testUrl}): _selectedMap = selectedMap,_autoSelectGroups = autoSelectGroups;
   factory _SetupParams.fromJson(Map<String, dynamic> json) => _$SetupParamsFromJson(json);
 
  final  Map<String, String> _selectedMap;
@@ -218,6 +219,13 @@ class _SetupParams implements SetupParams {
   if (_selectedMap is EqualUnmodifiableMapView) return _selectedMap;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableMapView(_selectedMap);
+}
+
+ final  Set<String> _autoSelectGroups;
+@override@JsonKey(name: 'auto-select-groups') Set<String> get autoSelectGroups {
+  if (_autoSelectGroups is EqualUnmodifiableSetView) return _autoSelectGroups;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableSetView(_autoSelectGroups);
 }
 
 @override@JsonKey(name: 'test-url') final  String testUrl;
@@ -235,16 +243,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SetupParams&&const DeepCollectionEquality().equals(other._selectedMap, _selectedMap)&&(identical(other.testUrl, testUrl) || other.testUrl == testUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SetupParams&&const DeepCollectionEquality().equals(other._selectedMap, _selectedMap)&&const DeepCollectionEquality().equals(other._autoSelectGroups, _autoSelectGroups)&&(identical(other.testUrl, testUrl) || other.testUrl == testUrl));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_selectedMap),testUrl);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_selectedMap),const DeepCollectionEquality().hash(_autoSelectGroups),testUrl);
 
 @override
 String toString() {
-  return 'SetupParams(selectedMap: $selectedMap, testUrl: $testUrl)';
+  return 'SetupParams(selectedMap: $selectedMap, autoSelectGroups: $autoSelectGroups, testUrl: $testUrl)';
 }
 
 
@@ -255,7 +263,7 @@ abstract mixin class _$SetupParamsCopyWith<$Res> implements $SetupParamsCopyWith
   factory _$SetupParamsCopyWith(_SetupParams value, $Res Function(_SetupParams) _then) = __$SetupParamsCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'selected-map') Map<String, String> selectedMap,@JsonKey(name: 'test-url') String testUrl
+@JsonKey(name: 'selected-map') Map<String, String> selectedMap,@JsonKey(name: 'auto-select-groups') Set<String> autoSelectGroups,@JsonKey(name: 'test-url') String testUrl
 });
 
 
@@ -272,10 +280,283 @@ class __$SetupParamsCopyWithImpl<$Res>
 
 /// Create a copy of SetupParams
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? selectedMap = null,Object? testUrl = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? selectedMap = null,Object? autoSelectGroups = null,Object? testUrl = null,}) {
   return _then(_SetupParams(
 selectedMap: null == selectedMap ? _self._selectedMap : selectedMap // ignore: cast_nullable_to_non_nullable
-as Map<String, String>,testUrl: null == testUrl ? _self.testUrl : testUrl // ignore: cast_nullable_to_non_nullable
+as Map<String, String>,autoSelectGroups: null == autoSelectGroups ? _self._autoSelectGroups : autoSelectGroups // ignore: cast_nullable_to_non_nullable
+as Set<String>,testUrl: null == testUrl ? _self.testUrl : testUrl // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$AutoSelectParams {
+
+@JsonKey(name: 'auto-select-groups') Set<String> get autoSelectGroups;@JsonKey(name: 'test-url') String get testUrl;
+/// Create a copy of AutoSelectParams
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$AutoSelectParamsCopyWith<AutoSelectParams> get copyWith => _$AutoSelectParamsCopyWithImpl<AutoSelectParams>(this as AutoSelectParams, _$identity);
+
+  /// Serializes this AutoSelectParams to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AutoSelectParams&&const DeepCollectionEquality().equals(other.autoSelectGroups, autoSelectGroups)&&(identical(other.testUrl, testUrl) || other.testUrl == testUrl));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(autoSelectGroups),testUrl);
+
+@override
+String toString() {
+  return 'AutoSelectParams(autoSelectGroups: $autoSelectGroups, testUrl: $testUrl)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $AutoSelectParamsCopyWith<$Res>  {
+  factory $AutoSelectParamsCopyWith(AutoSelectParams value, $Res Function(AutoSelectParams) _then) = _$AutoSelectParamsCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(name: 'auto-select-groups') Set<String> autoSelectGroups,@JsonKey(name: 'test-url') String testUrl
+});
+
+
+
+
+}
+/// @nodoc
+class _$AutoSelectParamsCopyWithImpl<$Res>
+    implements $AutoSelectParamsCopyWith<$Res> {
+  _$AutoSelectParamsCopyWithImpl(this._self, this._then);
+
+  final AutoSelectParams _self;
+  final $Res Function(AutoSelectParams) _then;
+
+/// Create a copy of AutoSelectParams
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? autoSelectGroups = null,Object? testUrl = null,}) {
+  return _then(_self.copyWith(
+autoSelectGroups: null == autoSelectGroups ? _self.autoSelectGroups : autoSelectGroups // ignore: cast_nullable_to_non_nullable
+as Set<String>,testUrl: null == testUrl ? _self.testUrl : testUrl // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [AutoSelectParams].
+extension AutoSelectParamsPatterns on AutoSelectParams {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _AutoSelectParams value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _AutoSelectParams() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _AutoSelectParams value)  $default,){
+final _that = this;
+switch (_that) {
+case _AutoSelectParams():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _AutoSelectParams value)?  $default,){
+final _that = this;
+switch (_that) {
+case _AutoSelectParams() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'auto-select-groups')  Set<String> autoSelectGroups, @JsonKey(name: 'test-url')  String testUrl)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _AutoSelectParams() when $default != null:
+return $default(_that.autoSelectGroups,_that.testUrl);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'auto-select-groups')  Set<String> autoSelectGroups, @JsonKey(name: 'test-url')  String testUrl)  $default,) {final _that = this;
+switch (_that) {
+case _AutoSelectParams():
+return $default(_that.autoSelectGroups,_that.testUrl);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'auto-select-groups')  Set<String> autoSelectGroups, @JsonKey(name: 'test-url')  String testUrl)?  $default,) {final _that = this;
+switch (_that) {
+case _AutoSelectParams() when $default != null:
+return $default(_that.autoSelectGroups,_that.testUrl);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _AutoSelectParams implements AutoSelectParams {
+  const _AutoSelectParams({@JsonKey(name: 'auto-select-groups') final  Set<String> autoSelectGroups = const {}, @JsonKey(name: 'test-url') required this.testUrl}): _autoSelectGroups = autoSelectGroups;
+  factory _AutoSelectParams.fromJson(Map<String, dynamic> json) => _$AutoSelectParamsFromJson(json);
+
+ final  Set<String> _autoSelectGroups;
+@override@JsonKey(name: 'auto-select-groups') Set<String> get autoSelectGroups {
+  if (_autoSelectGroups is EqualUnmodifiableSetView) return _autoSelectGroups;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableSetView(_autoSelectGroups);
+}
+
+@override@JsonKey(name: 'test-url') final  String testUrl;
+
+/// Create a copy of AutoSelectParams
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$AutoSelectParamsCopyWith<_AutoSelectParams> get copyWith => __$AutoSelectParamsCopyWithImpl<_AutoSelectParams>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$AutoSelectParamsToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AutoSelectParams&&const DeepCollectionEquality().equals(other._autoSelectGroups, _autoSelectGroups)&&(identical(other.testUrl, testUrl) || other.testUrl == testUrl));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_autoSelectGroups),testUrl);
+
+@override
+String toString() {
+  return 'AutoSelectParams(autoSelectGroups: $autoSelectGroups, testUrl: $testUrl)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$AutoSelectParamsCopyWith<$Res> implements $AutoSelectParamsCopyWith<$Res> {
+  factory _$AutoSelectParamsCopyWith(_AutoSelectParams value, $Res Function(_AutoSelectParams) _then) = __$AutoSelectParamsCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(name: 'auto-select-groups') Set<String> autoSelectGroups,@JsonKey(name: 'test-url') String testUrl
+});
+
+
+
+
+}
+/// @nodoc
+class __$AutoSelectParamsCopyWithImpl<$Res>
+    implements _$AutoSelectParamsCopyWith<$Res> {
+  __$AutoSelectParamsCopyWithImpl(this._self, this._then);
+
+  final _AutoSelectParams _self;
+  final $Res Function(_AutoSelectParams) _then;
+
+/// Create a copy of AutoSelectParams
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? autoSelectGroups = null,Object? testUrl = null,}) {
+  return _then(_AutoSelectParams(
+autoSelectGroups: null == autoSelectGroups ? _self._autoSelectGroups : autoSelectGroups // ignore: cast_nullable_to_non_nullable
+as Set<String>,testUrl: null == testUrl ? _self.testUrl : testUrl // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }

@@ -122,10 +122,15 @@ class SetupAction extends _$SetupAction {
 
   SetupParams get _setupParams {
     final selectedMap = ref.read(selectedMapProvider);
+    final autoSelectGroups = ref.read(autoSelectGroupsProvider);
     final testUrl = ref.read(
       appSettingProvider.select((state) => state.testUrl),
     );
-    return SetupParams(selectedMap: selectedMap, testUrl: testUrl);
+    return SetupParams(
+      selectedMap: selectedMap,
+      autoSelectGroups: autoSelectGroups,
+      testUrl: testUrl,
+    );
   }
 
   void fullSetup() {
@@ -803,6 +808,16 @@ class ProxiesAction extends _$ProxiesAction {
     ref.read(checkIpNumProvider.notifier).add();
   }
 
+  Future<void> setAutoSelect(Set<String> groupNames) async {
+    final testUrl = ref.read(
+      appSettingProvider.select((state) => state.testUrl),
+    );
+    await coreController.setAutoSelect(
+      AutoSelectParams(autoSelectGroups: groupNames, testUrl: testUrl),
+    );
+    updateGroupsDebounce(const Duration(seconds: 1));
+  }
+
   Future<String> updateProvider(
     ExternalProvider provider, {
     bool showLoading = false,
@@ -841,6 +856,24 @@ class ProfilesAction extends _$ProfilesAction {
           .read(profilesProvider.notifier)
           .put(currentProfile.copyWith(selectedMap: selectedMap));
     }
+  }
+
+  Set<String> updateCurrentAutoSelectGroups(
+    String groupName, {
+    required bool enabled,
+  }) {
+    final currentProfile = ref.read(currentProfileProvider);
+    if (currentProfile == null) return {};
+    final groups = Set<String>.from(currentProfile.autoSelectGroups);
+    if (enabled) {
+      groups.add(groupName);
+    } else {
+      groups.remove(groupName);
+    }
+    ref
+        .read(profilesProvider.notifier)
+        .put(currentProfile.copyWith(autoSelectGroups: groups));
+    return groups;
   }
 
   Future<void> deleteProfile(int id) async {

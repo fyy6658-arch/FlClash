@@ -135,7 +135,7 @@ enum ResultType {
   error,
 }
 
-enum CoreEventType { log, delay, request, loaded, crash, geoUpdate }
+enum CoreEventType { log, delay, request, loaded, crash, geoUpdate, autoSelect }
 
 enum InvokeMessageType { protect, process }
 
@@ -230,6 +230,7 @@ enum ActionMethod {
   getConfig,
   getProxies,
   changeProxy,
+  setAutoSelect,
   getTraffic,
   getTotalTraffic,
   resetTraffic,

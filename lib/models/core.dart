@@ -9,11 +9,27 @@ part 'generated/core.g.dart';
 abstract class SetupParams with _$SetupParams {
   const factory SetupParams({
     @JsonKey(name: 'selected-map') required Map<String, String> selectedMap,
+    @JsonKey(name: 'auto-select-groups')
+    @Default({})
+    Set<String> autoSelectGroups,
     @JsonKey(name: 'test-url') required String testUrl,
   }) = _SetupParams;
 
   factory SetupParams.fromJson(Map<String, dynamic> json) =>
       _$SetupParamsFromJson(json);
+}
+
+@freezed
+abstract class AutoSelectParams with _$AutoSelectParams {
+  const factory AutoSelectParams({
+    @JsonKey(name: 'auto-select-groups')
+    @Default({})
+    Set<String> autoSelectGroups,
+    @JsonKey(name: 'test-url') required String testUrl,
+  }) = _AutoSelectParams;
+
+  factory AutoSelectParams.fromJson(Map<String, dynamic> json) =>
+      _$AutoSelectParamsFromJson(json);
 }
 
 @freezed

@@ -8,12 +8,34 @@ part of '../core.dart';
 
 _SetupParams _$SetupParamsFromJson(Map<String, dynamic> json) => _SetupParams(
   selectedMap: Map<String, String>.from(json['selected-map'] as Map),
+  autoSelectGroups:
+      (json['auto-select-groups'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toSet() ??
+      const {},
   testUrl: json['test-url'] as String,
 );
 
 Map<String, dynamic> _$SetupParamsToJson(_SetupParams instance) =>
     <String, dynamic>{
       'selected-map': instance.selectedMap,
+      'auto-select-groups': instance.autoSelectGroups.toList(),
+      'test-url': instance.testUrl,
+    };
+
+_AutoSelectParams _$AutoSelectParamsFromJson(Map<String, dynamic> json) =>
+    _AutoSelectParams(
+      autoSelectGroups:
+          (json['auto-select-groups'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toSet() ??
+          const {},
+      testUrl: json['test-url'] as String,
+    );
+
+Map<String, dynamic> _$AutoSelectParamsToJson(_AutoSelectParams instance) =>
+    <String, dynamic>{
+      'auto-select-groups': instance.autoSelectGroups.toList(),
       'test-url': instance.testUrl,
     };
 
@@ -169,6 +191,7 @@ const _$CoreEventTypeEnumMap = {
   CoreEventType.loaded: 'loaded',
   CoreEventType.crash: 'crash',
   CoreEventType.geoUpdate: 'geoUpdate',
+  CoreEventType.autoSelect: 'autoSelect',
 };
 
 _InvokeMessage _$InvokeMessageFromJson(Map<String, dynamic> json) =>
@@ -273,6 +296,7 @@ const _$ActionMethodEnumMap = {
   ActionMethod.getConfig: 'getConfig',
   ActionMethod.getProxies: 'getProxies',
   ActionMethod.changeProxy: 'changeProxy',
+  ActionMethod.setAutoSelect: 'setAutoSelect',
   ActionMethod.getTraffic: 'getTraffic',
   ActionMethod.getTotalTraffic: 'getTotalTraffic',
   ActionMethod.resetTraffic: 'resetTraffic',

@@ -52,6 +52,7 @@ abstract class Profile with _$Profile {
     SubscriptionInfo? subscriptionInfo,
     @Default(true) bool autoUpdate,
     @Default({}) Map<String, String> selectedMap,
+    @Default({}) Set<String> autoSelectGroups,
     @Default({}) Set<String> unfoldSet,
     @Default(OverwriteType.standard) OverwriteType overwriteType,
     int? scriptId,

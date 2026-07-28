@@ -110,6 +110,11 @@ void main() {
       expect(restored.restoreStrategy, RestoreStrategy.compatible);
       expect(restored.customUserAgent, '');
       expect(restored.testUrl, defaultTestUrl);
+      expect(restored.dashboardWidgets, defaultDashboardWidgets);
+      expect(
+        restored.dashboardWidgets,
+        contains(DashboardWidget.vpnButton),
+      );
     });
 
     test('custom values survive round-trip', () {

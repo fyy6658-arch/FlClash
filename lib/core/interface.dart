@@ -30,6 +30,8 @@ mixin CoreInterface {
 
   Future<String> changeProxy(ChangeProxyParams changeProxyParams);
 
+  Future<String> setAutoSelect(AutoSelectParams autoSelectParams);
+
   Future<bool> startListener();
 
   Future<bool> stopListener();
@@ -194,6 +196,15 @@ abstract class CoreHandlerInterface with CoreInterface {
     return await _invoke<String>(
           method: ActionMethod.changeProxy,
           data: json.encode(changeProxyParams),
+        ) ??
+        '';
+  }
+
+  @override
+  Future<String> setAutoSelect(AutoSelectParams autoSelectParams) async {
+    return await _invoke<String>(
+          method: ActionMethod.setAutoSelect,
+          data: json.encode(autoSelectParams),
         ) ??
         '';
   }

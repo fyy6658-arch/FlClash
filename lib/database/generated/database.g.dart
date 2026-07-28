@@ -123,6 +123,16 @@ class $ProfilesTable extends Profiles
     requiredDuringInsert: true,
   ).withConverter<Map<String, String>>($ProfilesTable.$converterselectedMap);
   @override
+  late final GeneratedColumnWithTypeConverter<Set<String>, String>
+  autoSelectGroups = GeneratedColumn<String>(
+    'auto_select_groups',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('[]'),
+  ).withConverter<Set<String>>($ProfilesTable.$converterautoSelectGroups);
+  @override
   late final GeneratedColumnWithTypeConverter<Set<String>, String> unfoldSet =
       GeneratedColumn<String>(
         'unfold_set',
@@ -153,6 +163,7 @@ class $ProfilesTable extends Profiles
     subscriptionInfo,
     autoUpdate,
     selectedMap,
+    autoSelectGroups,
     unfoldSet,
     order,
   ];
@@ -295,6 +306,12 @@ class $ProfilesTable extends Profiles
           data['${effectivePrefix}selected_map'],
         )!,
       ),
+      autoSelectGroups: $ProfilesTable.$converterautoSelectGroups.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}auto_select_groups'],
+        )!,
+      ),
       unfoldSet: $ProfilesTable.$converterunfoldSet.fromSql(
         attachedDatabase.typeMapping.read(
           DriftSqlType.string,
@@ -321,6 +338,8 @@ class $ProfilesTable extends Profiles
       const SubscriptionInfoConverter();
   static TypeConverter<Map<String, String>, String> $converterselectedMap =
       const StringMapConverter();
+  static TypeConverter<Set<String>, String> $converterautoSelectGroups =
+      const StringSetConverter();
   static TypeConverter<Set<String>, String> $converterunfoldSet =
       const StringSetConverter();
 }
@@ -337,6 +356,7 @@ class RawProfile extends DataClass implements Insertable<RawProfile> {
   final SubscriptionInfo? subscriptionInfo;
   final bool autoUpdate;
   final Map<String, String> selectedMap;
+  final Set<String> autoSelectGroups;
   final Set<String> unfoldSet;
   final int? order;
   const RawProfile({
@@ -351,6 +371,7 @@ class RawProfile extends DataClass implements Insertable<RawProfile> {
     this.subscriptionInfo,
     required this.autoUpdate,
     required this.selectedMap,
+    required this.autoSelectGroups,
     required this.unfoldSet,
     this.order,
   });
@@ -389,6 +410,11 @@ class RawProfile extends DataClass implements Insertable<RawProfile> {
       );
     }
     {
+      map['auto_select_groups'] = Variable<String>(
+        $ProfilesTable.$converterautoSelectGroups.toSql(autoSelectGroups),
+      );
+    }
+    {
       map['unfold_set'] = Variable<String>(
         $ProfilesTable.$converterunfoldSet.toSql(unfoldSet),
       );
@@ -420,6 +446,7 @@ class RawProfile extends DataClass implements Insertable<RawProfile> {
           : Value(subscriptionInfo),
       autoUpdate: Value(autoUpdate),
       selectedMap: Value(selectedMap),
+      autoSelectGroups: Value(autoSelectGroups),
       unfoldSet: Value(unfoldSet),
       order: order == null && nullToAbsent
           ? const Value.absent()
@@ -452,6 +479,9 @@ class RawProfile extends DataClass implements Insertable<RawProfile> {
       selectedMap: serializer.fromJson<Map<String, String>>(
         json['selectedMap'],
       ),
+      autoSelectGroups: serializer.fromJson<Set<String>>(
+        json['autoSelectGroups'],
+      ),
       unfoldSet: serializer.fromJson<Set<String>>(json['unfoldSet']),
       order: serializer.fromJson<int?>(json['order']),
     );
@@ -477,6 +507,7 @@ class RawProfile extends DataClass implements Insertable<RawProfile> {
       ),
       'autoUpdate': serializer.toJson<bool>(autoUpdate),
       'selectedMap': serializer.toJson<Map<String, String>>(selectedMap),
+      'autoSelectGroups': serializer.toJson<Set<String>>(autoSelectGroups),
       'unfoldSet': serializer.toJson<Set<String>>(unfoldSet),
       'order': serializer.toJson<int?>(order),
     };
@@ -494,6 +525,7 @@ class RawProfile extends DataClass implements Insertable<RawProfile> {
     Value<SubscriptionInfo?> subscriptionInfo = const Value.absent(),
     bool? autoUpdate,
     Map<String, String>? selectedMap,
+    Set<String>? autoSelectGroups,
     Set<String>? unfoldSet,
     Value<int?> order = const Value.absent(),
   }) => RawProfile(
@@ -515,6 +547,7 @@ class RawProfile extends DataClass implements Insertable<RawProfile> {
         : this.subscriptionInfo,
     autoUpdate: autoUpdate ?? this.autoUpdate,
     selectedMap: selectedMap ?? this.selectedMap,
+    autoSelectGroups: autoSelectGroups ?? this.autoSelectGroups,
     unfoldSet: unfoldSet ?? this.unfoldSet,
     order: order.present ? order.value : this.order,
   );
@@ -545,6 +578,9 @@ class RawProfile extends DataClass implements Insertable<RawProfile> {
       selectedMap: data.selectedMap.present
           ? data.selectedMap.value
           : this.selectedMap,
+      autoSelectGroups: data.autoSelectGroups.present
+          ? data.autoSelectGroups.value
+          : this.autoSelectGroups,
       unfoldSet: data.unfoldSet.present ? data.unfoldSet.value : this.unfoldSet,
       order: data.order.present ? data.order.value : this.order,
     );
@@ -564,6 +600,7 @@ class RawProfile extends DataClass implements Insertable<RawProfile> {
           ..write('subscriptionInfo: $subscriptionInfo, ')
           ..write('autoUpdate: $autoUpdate, ')
           ..write('selectedMap: $selectedMap, ')
+          ..write('autoSelectGroups: $autoSelectGroups, ')
           ..write('unfoldSet: $unfoldSet, ')
           ..write('order: $order')
           ..write(')'))
@@ -583,6 +620,7 @@ class RawProfile extends DataClass implements Insertable<RawProfile> {
     subscriptionInfo,
     autoUpdate,
     selectedMap,
+    autoSelectGroups,
     unfoldSet,
     order,
   );
@@ -601,6 +639,7 @@ class RawProfile extends DataClass implements Insertable<RawProfile> {
           other.subscriptionInfo == this.subscriptionInfo &&
           other.autoUpdate == this.autoUpdate &&
           other.selectedMap == this.selectedMap &&
+          other.autoSelectGroups == this.autoSelectGroups &&
           other.unfoldSet == this.unfoldSet &&
           other.order == this.order);
 }
@@ -617,6 +656,7 @@ class ProfilesCompanion extends UpdateCompanion<RawProfile> {
   final Value<SubscriptionInfo?> subscriptionInfo;
   final Value<bool> autoUpdate;
   final Value<Map<String, String>> selectedMap;
+  final Value<Set<String>> autoSelectGroups;
   final Value<Set<String>> unfoldSet;
   final Value<int?> order;
   const ProfilesCompanion({
@@ -631,6 +671,7 @@ class ProfilesCompanion extends UpdateCompanion<RawProfile> {
     this.subscriptionInfo = const Value.absent(),
     this.autoUpdate = const Value.absent(),
     this.selectedMap = const Value.absent(),
+    this.autoSelectGroups = const Value.absent(),
     this.unfoldSet = const Value.absent(),
     this.order = const Value.absent(),
   });
@@ -646,6 +687,7 @@ class ProfilesCompanion extends UpdateCompanion<RawProfile> {
     this.subscriptionInfo = const Value.absent(),
     required bool autoUpdate,
     required Map<String, String> selectedMap,
+    this.autoSelectGroups = const Value.absent(),
     required Set<String> unfoldSet,
     this.order = const Value.absent(),
   }) : label = Value(label),
@@ -667,6 +709,7 @@ class ProfilesCompanion extends UpdateCompanion<RawProfile> {
     Expression<String>? subscriptionInfo,
     Expression<bool>? autoUpdate,
     Expression<String>? selectedMap,
+    Expression<String>? autoSelectGroups,
     Expression<String>? unfoldSet,
     Expression<int>? order,
   }) {
@@ -683,6 +726,7 @@ class ProfilesCompanion extends UpdateCompanion<RawProfile> {
       if (subscriptionInfo != null) 'subscription_info': subscriptionInfo,
       if (autoUpdate != null) 'auto_update': autoUpdate,
       if (selectedMap != null) 'selected_map': selectedMap,
+      if (autoSelectGroups != null) 'auto_select_groups': autoSelectGroups,
       if (unfoldSet != null) 'unfold_set': unfoldSet,
       if (order != null) 'order': order,
     });
@@ -700,6 +744,7 @@ class ProfilesCompanion extends UpdateCompanion<RawProfile> {
     Value<SubscriptionInfo?>? subscriptionInfo,
     Value<bool>? autoUpdate,
     Value<Map<String, String>>? selectedMap,
+    Value<Set<String>>? autoSelectGroups,
     Value<Set<String>>? unfoldSet,
     Value<int?>? order,
   }) {
@@ -716,6 +761,7 @@ class ProfilesCompanion extends UpdateCompanion<RawProfile> {
       subscriptionInfo: subscriptionInfo ?? this.subscriptionInfo,
       autoUpdate: autoUpdate ?? this.autoUpdate,
       selectedMap: selectedMap ?? this.selectedMap,
+      autoSelectGroups: autoSelectGroups ?? this.autoSelectGroups,
       unfoldSet: unfoldSet ?? this.unfoldSet,
       order: order ?? this.order,
     );
@@ -765,6 +811,11 @@ class ProfilesCompanion extends UpdateCompanion<RawProfile> {
         $ProfilesTable.$converterselectedMap.toSql(selectedMap.value),
       );
     }
+    if (autoSelectGroups.present) {
+      map['auto_select_groups'] = Variable<String>(
+        $ProfilesTable.$converterautoSelectGroups.toSql(autoSelectGroups.value),
+      );
+    }
     if (unfoldSet.present) {
       map['unfold_set'] = Variable<String>(
         $ProfilesTable.$converterunfoldSet.toSql(unfoldSet.value),
@@ -790,6 +841,7 @@ class ProfilesCompanion extends UpdateCompanion<RawProfile> {
           ..write('subscriptionInfo: $subscriptionInfo, ')
           ..write('autoUpdate: $autoUpdate, ')
           ..write('selectedMap: $selectedMap, ')
+          ..write('autoSelectGroups: $autoSelectGroups, ')
           ..write('unfoldSet: $unfoldSet, ')
           ..write('order: $order')
           ..write(')'))
@@ -3478,6 +3530,7 @@ typedef $$ProfilesTableCreateCompanionBuilder =
       Value<SubscriptionInfo?> subscriptionInfo,
       required bool autoUpdate,
       required Map<String, String> selectedMap,
+      Value<Set<String>> autoSelectGroups,
       required Set<String> unfoldSet,
       Value<int?> order,
     });
@@ -3494,6 +3547,7 @@ typedef $$ProfilesTableUpdateCompanionBuilder =
       Value<SubscriptionInfo?> subscriptionInfo,
       Value<bool> autoUpdate,
       Value<Map<String, String>> selectedMap,
+      Value<Set<String>> autoSelectGroups,
       Value<Set<String>> unfoldSet,
       Value<int?> order,
     });
@@ -3612,6 +3666,12 @@ class $$ProfilesTableFilterComposer
   >
   get selectedMap => $composableBuilder(
     column: $table.selectedMap,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<Set<String>, Set<String>, String>
+  get autoSelectGroups => $composableBuilder(
+    column: $table.autoSelectGroups,
     builder: (column) => ColumnWithTypeConverterFilters(column),
   );
 
@@ -3741,6 +3801,11 @@ class $$ProfilesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get autoSelectGroups => $composableBuilder(
+    column: $table.autoSelectGroups,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get unfoldSet => $composableBuilder(
     column: $table.unfoldSet,
     builder: (column) => ColumnOrderings(column),
@@ -3810,6 +3875,12 @@ class $$ProfilesTableAnnotationComposer
     column: $table.selectedMap,
     builder: (column) => column,
   );
+
+  GeneratedColumnWithTypeConverter<Set<String>, String> get autoSelectGroups =>
+      $composableBuilder(
+        column: $table.autoSelectGroups,
+        builder: (column) => column,
+      );
 
   GeneratedColumnWithTypeConverter<Set<String>, String> get unfoldSet =>
       $composableBuilder(column: $table.unfoldSet, builder: (column) => column);
@@ -3911,6 +3982,7 @@ class $$ProfilesTableTableManager
                     const Value.absent(),
                 Value<bool> autoUpdate = const Value.absent(),
                 Value<Map<String, String>> selectedMap = const Value.absent(),
+                Value<Set<String>> autoSelectGroups = const Value.absent(),
                 Value<Set<String>> unfoldSet = const Value.absent(),
                 Value<int?> order = const Value.absent(),
               }) => ProfilesCompanion(
@@ -3925,6 +3997,7 @@ class $$ProfilesTableTableManager
                 subscriptionInfo: subscriptionInfo,
                 autoUpdate: autoUpdate,
                 selectedMap: selectedMap,
+                autoSelectGroups: autoSelectGroups,
                 unfoldSet: unfoldSet,
                 order: order,
               ),
@@ -3942,6 +4015,7 @@ class $$ProfilesTableTableManager
                     const Value.absent(),
                 required bool autoUpdate,
                 required Map<String, String> selectedMap,
+                Value<Set<String>> autoSelectGroups = const Value.absent(),
                 required Set<String> unfoldSet,
                 Value<int?> order = const Value.absent(),
               }) => ProfilesCompanion.insert(
@@ -3956,6 +4030,7 @@ class $$ProfilesTableTableManager
                 subscriptionInfo: subscriptionInfo,
                 autoUpdate: autoUpdate,
                 selectedMap: selectedMap,
+                autoSelectGroups: autoSelectGroups,
                 unfoldSet: unfoldSet,
                 order: order,
               ),
